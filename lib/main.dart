@@ -39,33 +39,46 @@ class MyApp extends StatelessWidget {
     // !但是Routes又只能在MaterialApp里面用……
     // const TitleBar(),
     return MaterialApp(
-      title: 'Welcome to MECalculator',
-
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-
-      home: Material(child: Page(Home())),
-      // !6……
-      // !https://www.jianshu.com/p/c5282f34670f这里的 实战 就是直接每个页面都搞一个TitleBar了……行吧……
-      // home: Scaffold(
-      //   // appBar: AppBar()
-      //   // appBar: Container(),
-      // ),
-      // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
-      // !然后发现默认透明的背景也变回来了……
-    );
+        title: 'Welcome to MECalculator',
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
+        // routes: {
+        //   "/": (context) => PageContent(Home()),
+        //   // "/Multinomials":context => Page(Home()),
+        //   // !flutter不能省略()
+        //   "/Multinomials": (context) => PageContent(Home()),
+        // },
+        home: PageContent(title: "ME Calculator", child: Home())
+        // !6……
+        // !https://www.jianshu.com/p/c5282f34670f这里的 实战 就是直接每个页面都搞一个TitleBar了……行吧……
+        // home: Scaffold(
+        //   // appBar: AppBar()
+        //   // appBar: Container(),
+        // ),
+        // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
+        // !然后发现默认透明的背景也变回来了……
+        );
     // ]));
   }
 }
 
-class Page extends StatelessWidget {
+// !好像引入了Animations.dart就重复了……
+class PageContent extends StatelessWidget {
+  // !注意这里运行时直接修改类名导致无法重载，class null没有''的构造函数()
+  String title;
   Widget child;
-  Page(this.child);
+  PageContent({required Widget this.child, required String this.title});
+  // PageContent(this.child, this.title);
+  // PageContent(this.child,required this.title);
   // td 不懂怎么加key解决警告……
   @override
   Widget build(BuildContext context) {
-    return Column(children: [const TitleBar(), child]);
+    return Material(
+        color: Colors.white,
+        // color: Colors.transparent,
+        child: Column(children: [TitleBar(title: title), child]));
+    // !Const class cannot become non-const: Library:'package:mecalculator/Home/title_bar.dart' Class: TitleBar.Try performing a hot restart instead.
   }
 }
 

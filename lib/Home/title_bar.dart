@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 class TitleBar extends StatefulWidget {
-  const TitleBar({super.key});
+  String title;
+  TitleBar({Key? key, required this.title});
+  // const TitleBar({super.key});
   @override
   State<TitleBar> createState() => _TitleBarState();
 }
@@ -27,7 +29,7 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
     return DragToMoveArea(
         child: AppBar(
             // !就算返回AppBar也无法赋给scaffold的appBar属性……The argument type 'TitleBar' can't be assigned to the parameter type 'PreferredSizeWidget?'.
-            title: const Text('ME Calculator'),
+            title: Text(widget.title),
             centerTitle: true,
             elevation: 0,
             toolbarHeight: 30,
