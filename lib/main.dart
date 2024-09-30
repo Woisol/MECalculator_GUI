@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mecalculator/Home/home.dart';
 import 'package:mecalculator/Home/title_bar.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -49,52 +50,46 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow[600]!),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow[600]!),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Material(child: Column(children: [const TitleBar(), Home()])),
+      // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
+      // !然后发现默认透明的背景也变回来了……
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+// class MyHomePage extends StatelessWidget {
+//   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+//   // This widget is the home page of your application. It is stateful, meaning
+//   // that it has a State object (defined below) that contains fields that affect
+//   // how it looks.
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+//   // This class is the configuration for the state. It holds the values (in this
+//   // case the title) provided by the parent (in this case the App widget) and
+//   // used by the build method of the State. Fields in a Widget subclass are
+//   // always marked "final".
 
-  final String title;
+//   final String title;
 
-  @override
-  Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        //   appBar: AppBar(),
-        //   body: const Center(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: <Widget>[
-        //         Text(
-        //           'You have pushed the button this many times:',
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // );
-        Column(children: [
-      TitleBar(),
-      Expanded(
-          child: Center(
-              child: Text(
-        'Welcome to MECalculator',
-        style: const TextStyle(fontSize: 24),
-      )))
-    ]);
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//         // Scaffold(
+//         //   appBar: AppBar(),
+//         //   body: const Center(
+//         //     child: Column(
+//         //       mainAxisAlignment: MainAxisAlignment.center,
+//         //       children: <Widget>[
+//         //         Text(
+//         //           'You have pushed the button this many times:',
+//         //         ),
+//         //       ],
+//         //     ),
+//         //   ),
+//         // );
+//         ;
+//   }
+// }
