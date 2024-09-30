@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/animation.dart';
 import 'package:animations/animations.dart';
+import 'package:mecalculator/Expression/expression.dart';
+import 'package:mecalculator/Multinomial/multinomial.dart';
 import 'package:mecalculator/main.dart';
 
 class Home extends StatelessWidget {
@@ -78,7 +80,7 @@ class Home extends StatelessWidget {
                 },
                 openBuilder: (BuildContext context, VoidCallback _) {
                   return PageContent(
-                      title: "一元稀疏多项式", child: Center(child: Text("一元稀疏多项式")));
+                      title: "一元稀疏多项式", child: PageMultinomial());
                 }),
             OpenContainer(
                 // closedColor: Colors.transparent,
@@ -119,7 +121,7 @@ class Home extends StatelessWidget {
                 },
                 openBuilder: (BuildContext context, VoidCallback _) {
                   return PageContent(
-                      title: "表达式求值", child: Center(child: Text("表达式求值")));
+                      title: "表达式求值", child: Center(child: PageExpression()));
                 }),
           ],
         )

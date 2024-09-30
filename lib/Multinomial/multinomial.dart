@@ -10,7 +10,7 @@ class PageMultinomial extends StatefulWidget {
 class _PageMultinomialState extends State<PageMultinomial> {
   List<String> inputs = [];
   int n = 0;
-  int operation = 0;
+  int operationIndex = 0;
   int? result;
   // int? result = null;
   // !Redundant initialization to 'null'.
