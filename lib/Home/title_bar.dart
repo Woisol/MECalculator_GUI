@@ -57,6 +57,7 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
             // style: RoundedRectangleBorder(
             //     borderRadius: BorderRadius.circular(0)
             // ),
+            // color: WindowCaptionButton.close(),
 
             style: OutlinedButton.styleFrom(
                 splashFactory: NoSplash.splashFactory,

@@ -32,31 +32,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // return <Widget>[
+    // return Container(
+    //     child: Column(children: [
+    // !Incorrect use of ParentDataWidget
+    // !但是Routes又只能在MaterialApp里面用……
+    // const TitleBar(),
     return MaterialApp(
       title: 'Welcome to MECalculator',
+
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow[600]!),
         useMaterial3: true,
       ),
-      home: Material(child: Column(children: [const TitleBar(), Home()])),
+
+      home: Material(child: Page(Home())),
+      // !6……
+      // !https://www.jianshu.com/p/c5282f34670f这里的 实战 就是直接每个页面都搞一个TitleBar了……行吧……
+      // home: Scaffold(
+      //   // appBar: AppBar()
+      //   // appBar: Container(),
+      // ),
       // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
       // !然后发现默认透明的背景也变回来了……
     );
+    // ]));
+  }
+}
+
+class Page extends StatelessWidget {
+  Widget child;
+  Page(this.child);
+  // td 不懂怎么加key解决警告……
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [const TitleBar(), child]);
   }
 }
 
@@ -76,20 +85,6 @@ class MyApp extends StatelessWidget {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return
-//         // Scaffold(
-//         //   appBar: AppBar(),
-//         //   body: const Center(
-//         //     child: Column(
-//         //       mainAxisAlignment: MainAxisAlignment.center,
-//         //       children: <Widget>[
-//         //         Text(
-//         //           'You have pushed the button this many times:',
-//         //         ),
-//         //       ],
-//         //     ),
-//         //   ),
-//         // );
-//         ;
+//     return MaterialPageRoute(builder: builder)
 //   }
 // }
