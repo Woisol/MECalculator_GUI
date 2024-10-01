@@ -6,6 +6,9 @@ import 'package:mecalculator/Multinomial/multinomial.dart';
 import 'package:mecalculator/main.dart';
 
 class Home extends StatelessWidget {
+  TextEditingController _controller1 = TextEditingController();
+  TextEditingController _controller2 = TextEditingController();
+  String result = "";
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -130,7 +133,11 @@ class Home extends StatelessWidget {
                 openBuilder: (BuildContext context, VoidCallback _) {
                   return PageContent(
                     title: "表达式求值",
-                    child: Center(child: PageExpression()),
+                    child: Center(
+                        child: PageExpression(
+                      controller: _controller1,
+                      result: result,
+                    )),
                     // back: true,
                   );
                 }),
