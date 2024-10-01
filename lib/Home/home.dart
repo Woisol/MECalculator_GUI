@@ -9,10 +9,15 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        // child: Center(
-        // !这个Center下再跌Row或Column就没用了……
-        child: Column(
+        // !据说在Column和Row下才能使用Expanded，其它地方就会报错Incorrect use of ParentDataWidget.
+        // !但是你这里上级也是Column啊……
+        // !不过WidgetTree也看到中间隔着这个Home……是这个问题吗……
+        // !不管了崩就崩吧……现在本来就一堆解决不了Expande就Expande不然这调不了居中……
+        child: Center(
+            // !这个Center下再跌Row或Column就没用了……
+            child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Container(
           // padding: Padding(padding: ),
@@ -80,7 +85,10 @@ class Home extends StatelessWidget {
                 },
                 openBuilder: (BuildContext context, VoidCallback _) {
                   return PageContent(
-                      title: "一元稀疏多项式", child: PageMultinomial());
+                    title: "一元稀疏多项式",
+                    child: PageMultinomial(),
+                    // back: true,
+                  );
                 }),
             OpenContainer(
                 // closedColor: Colors.transparent,
@@ -121,12 +129,14 @@ class Home extends StatelessWidget {
                 },
                 openBuilder: (BuildContext context, VoidCallback _) {
                   return PageContent(
-                      title: "表达式求值", child: Center(child: PageExpression()));
+                    title: "表达式求值",
+                    child: Center(child: PageExpression()),
+                    // back: true,
+                  );
                 }),
           ],
         )
       ],
-    ));
-    // );
+    )));
   }
 }

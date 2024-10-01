@@ -66,15 +66,23 @@ class MyApp extends StatelessWidget {
 // !好像引入了Animations.dart就重复了……
 class PageContent extends StatelessWidget {
   // !注意这里运行时直接修改类名导致无法重载，class null没有''的构造函数()
+  // bool back = false;
   String title;
   Widget child;
-  PageContent({required Widget this.child, required String this.title});
+  PageContent({
+    required Widget this.child,
+    required String this.title,
+  });
+  // this.back = false
   // PageContent(this.child, this.title);
   // PageContent(this.child,required this.title);
   // td 不懂怎么加key解决警告……
   @override
   Widget build(BuildContext context) {
+    // !Container(
+    // !报错
     return Material(
+        // !这个Material移到Home那里OpenContainer就没有透明度变化了……
         color: Colors.white,
         // color: Colors.transparent,
         child: Column(children: [TitleBar(title: title), child]));
