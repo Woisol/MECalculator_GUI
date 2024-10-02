@@ -85,7 +85,9 @@ class PageContent extends StatelessWidget {
         // !这个Material移到Home那里OpenContainer就没有透明度变化了……
         color: Colors.white,
         // color: Colors.transparent,
-        child: Column(children: [TitleBar(title: title), child]));
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [TitleBar(title: title), child]));
     // !Const class cannot become non-const: Library:'package:mecalculator/Home/title_bar.dart' Class: TitleBar.Try performing a hot restart instead.
   }
 }

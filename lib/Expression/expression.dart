@@ -61,10 +61,15 @@ class PageExpression extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.start),
             ),
-            Container(
+            SizedBox(
+              width: double.infinity,
+              height: 20,
+            ),
+            DecoratedBox(
               // color: Colors.grey[400],
               // !艹服了这个为什么要限制……不能同时有color和decoration……
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              // margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+
               decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
