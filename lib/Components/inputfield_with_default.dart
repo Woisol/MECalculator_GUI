@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mecalculator/Data_Process/data_process.dart';
 
 class InputFieldWithDefault extends StatelessWidget {
@@ -38,12 +39,19 @@ class InputFieldWithDefault extends StatelessWidget {
             //     },
             //     child:
             TextField(
+              autofocus: true,
+              // !额好像没用？
               controller: controller,
               // focusNode: focusNode,
               // !？？？莫名其妙输入没有光标只能从头插入，加了这个过一会才好，现在不加又行了？？？
               // onChanged: (str) {
               //   controller?.text = expressionFormat(controller.text ?? "");
               // },
+              // onChanged: (value){if()},
+              // inputFormatters: [
+              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9+\-*/]*$'))
+              // ],
+              // !这种方式只要输入一个非法字符就会清空……
               decoration: InputDecoration(
                   // enabledBorder:
                   hintText: '用键盘或下方按钮输入表达式，或在后面的按钮选择一个输入样例',
