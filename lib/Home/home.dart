@@ -8,7 +8,7 @@ import 'package:mecalculator/main.dart';
 class Home extends StatelessWidget {
   TextEditingController _controller1 = TextEditingController();
   TextEditingController _controller2 = TextEditingController();
-  String result = "";
+  // String result = "";
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -150,7 +150,7 @@ class Home extends StatelessWidget {
                     title: "表达式求值",
                     child: PageExpression(
                       controller: _controller1,
-                      result: result,
+                      // result: result,
                     ),
                     // back: true,
                   );
@@ -160,5 +160,13 @@ class Home extends StatelessWidget {
       ],
       // )
     ));
+  }
+
+  @override
+  // !？stateless没有dispose？这里说没有覆写到？
+  void dispose() {
+    _controller1.dispose();
+    _controller2.dispose();
+    // super.dispose();
   }
 }

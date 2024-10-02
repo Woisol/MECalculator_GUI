@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mecalculator/Home/home.dart';
 import 'package:mecalculator/Home/title_bar.dart';
@@ -102,6 +104,14 @@ class PageContent extends StatelessWidget {
             children: [TitleBar(title: title), child]));
     // !Const class cannot become non-const: Library:'package:mecalculator/Home/title_bar.dart' Class: TitleBar.Try performing a hot restart instead.
   }
+}
+
+String getCalRes(List<String> arguments) {
+  print("Directory.current.path: " + Directory.current.path);
+  return Process.runSync(
+          "${Directory.current.path}/calculator/calculate.exe", arguments)
+      .stdout
+      .toString();
 }
 
 // class MyHomePage extends StatelessWidget {

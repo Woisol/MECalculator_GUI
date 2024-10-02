@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:mecalculator/Data_Process/data_process.dart';
 
 class InputFieldWithDefault extends StatelessWidget {
-  late TextEditingController? controller;
+  late TextEditingController controller;
   late String result;
   late List<String> options;
   InputFieldWithDefault(
-      {this.controller, required this.result, required this.options});
+      {required this.controller, required this.result, required this.options});
   @override
   Widget build(BuildContext context) {
+    // controller?.addListener(() {
+    //   controller?.text = expressionFormat(controller?.text ?? "");
+    // });
     return Row(
       children: [
         Expanded(
             child: TextField(
           controller: controller,
+          // focusNode: FocusNode(),
+          // !？？？莫名其妙输入没有光标只能从头插入，加了这个过一会才好，现在不加又行了？？？
           // onChanged: (str) {
-          //   controller?.text = expressionFormat(controller?.text ?? "");
+          //   controller?.text = expressionFormat(controller.text ?? "");
           // },
           decoration: InputDecoration(
               // enabledBorder:
@@ -38,7 +43,7 @@ class InputFieldWithDefault extends StatelessWidget {
               ),
         )),
         // Positioned(child:
-        Row(children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Text(result),
           PopupMenuButton(
               tooltip: "输入样例",
@@ -48,7 +53,31 @@ class InputFieldWithDefault extends StatelessWidget {
                       child: Text(sample),
                       value: sample,
                       onTap: () {
-                        // controller.text = sample;
+                        if (controller.text != "") {
+                          // !Dialog的写法！！！
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                      title: Text(
+                                        "警告",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      content: Text("当前输入框内有内容，是否覆盖？"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                            onPressed: () {
+                                              controller.text = sample;
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("覆盖")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("取消"))
+                                      ]));
+                        } else
+                          controller.text = sample;
                         // controller.value = TextEditingValue(text: sample);
                       }))
                   .toList(),
