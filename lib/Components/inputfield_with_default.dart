@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mecalculator/Data_Process/data_process.dart';
 
 class InputFieldWithDefault extends StatelessWidget {
-  late TextEditingController controller;
+  late TextEditingController? controller;
   late String result;
   late List<String> options;
   InputFieldWithDefault(
-      {required this.controller, required this.result, required this.options});
+      {this.controller, required this.result, required this.options});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,6 +14,9 @@ class InputFieldWithDefault extends StatelessWidget {
         Expanded(
             child: TextField(
           controller: controller,
+          // onChanged: (str) {
+          //   controller?.text = expressionFormat(controller?.text ?? "");
+          // },
           decoration: InputDecoration(
               // enabledBorder:
               hintText: '用键盘或下方按钮输入表达式，或在后面的按钮选择一个输入样例',
@@ -45,7 +48,7 @@ class InputFieldWithDefault extends StatelessWidget {
                       child: Text(sample),
                       value: sample,
                       onTap: () {
-                        controller.text = sample;
+                        // controller.text = sample;
                         // controller.value = TextEditingValue(text: sample);
                       }))
                   .toList(),

@@ -3,6 +3,7 @@ import 'package:mecalculator/Home/home.dart';
 import 'package:mecalculator/Home/title_bar.dart';
 import 'package:window_manager/window_manager.dart';
 
+// Size? screenSize;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
@@ -32,33 +33,43 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // windowManager.getSize().whenComplete((size){screenSize=size;return;});
+    // windowManager.getSize().then((size) {
+    //   screenSize = size;
+    // });
     // return <Widget>[
     // return Container(
     //     child: Column(children: [
     // !Incorrect use of ParentDataWidget
     // !但是Routes又只能在MaterialApp里面用……
     // const TitleBar(),
-    return MaterialApp(
-        title: 'Welcome to MECalculator',
-        theme: ThemeData(
-          useMaterial3: true,
-        ),
-        // routes: {
-        //   "/": (context) => PageContent(Home()),
-        //   // "/Multinomials":context => Page(Home()),
-        //   // !flutter不能省略()
-        //   "/Multinomials": (context) => PageContent(Home()),
-        // },
-        home: PageContent(title: "ME Calculator", child: Home())
-        // !6……
-        // !https://www.jianshu.com/p/c5282f34670f这里的 实战 就是直接每个页面都搞一个TitleBar了……行吧……
-        // home: Scaffold(
-        //   // appBar: AppBar()
-        //   // appBar: Container(),
-        // ),
-        // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
-        // !然后发现默认透明的背景也变回来了……
-        );
+    return
+        // SizedBox(
+        //     width: 600,
+        //     height: 400,
+        //     child:
+        MaterialApp(
+            title: 'Welcome to MECalculator',
+            scrollBehavior: ScrollBehavior().copyWith(overscroll: false),
+            theme: ThemeData(
+              useMaterial3: true,
+            ),
+            // routes: {
+            //   "/": (context) => PageContent(Home()),
+            //   // "/Multinomials":context => Page(Home()),
+            //   // !flutter不能省略()
+            //   "/Multinomials": (context) => PageContent(Home()),
+            // },
+            home: PageContent(title: "ME Calculator", child: Home())
+            // !6……
+            // !https://www.jianshu.com/p/c5282f34670f这里的 实战 就是直接每个页面都搞一个TitleBar了……行吧……
+            // home: Scaffold(
+            //   // appBar: AppBar()
+            //   // appBar: Container(),
+            // ),
+            // !原意在于不用scaffold时Text默认会有双簧下划线，查了教程发现根节点设置成Material也可以解决
+            // !然后发现默认透明的背景也变回来了……
+            );
     // ]));
   }
 }
@@ -69,6 +80,7 @@ class PageContent extends StatelessWidget {
   // bool back = false;
   String title;
   Widget child;
+  // Size? screenSize;
   PageContent({
     required Widget this.child,
     required String this.title,
