@@ -37,7 +37,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
               // mode == "--cal" ? [mode, x] : [mode],
               // !呜好不灵活
               input1.length.toString() + " " + input1.join(' '),
-              input2.isEmpty ? "" : input2.length.toString() + input2.join(' ')
+              input2.isEmpty
+                  ? ""
+                  : input2.length.toString() + " " + input2.join(' ')
             ]
           : [
               "-M",
@@ -45,7 +47,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
               // mode == "--cal" ? [mode, x] : [mode],
               // !呜好不灵活
               input1.length.toString() + " " + input1.join(' '),
-              input2.isEmpty ? "" : input2.length.toString() + input2.join(' ')
+              input2.isEmpty
+                  ? ""
+                  : input2.length.toString() + " " + input2.join(' ')
             ]);
     });
   }
@@ -240,14 +244,14 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                     // }]
                                     ),
                               )),
-                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               DropdownButton(
                                 value: mode,
                                 // !注意这里要手动指定value不然没显示……
-                                // !value的修改也要自己手动setState……
+                                // !value的修改也要自己手动setState……,
+                                focusColor: Colors.white,
                                 onChanged: (value) {
                                   mode = value.toString();
                                 },
@@ -255,27 +259,34 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                   buildPopupMenuItem("求值", "--cal",
                                       onTapOthers: () {
                                     setState(() {
+                                      result = "";
                                       n2 = 0;
+                                      input2 = [];
                                     });
                                   }),
                                   buildPopupMenuItem("求导", "--de",
                                       onTapOthers: () {
                                     setState(() {
+                                      result = "";
                                       x = "";
                                       n2 = 0;
+                                      input2 = [];
                                     });
                                   }),
                                   buildPopupMenuItem("+", "--add",
                                       onTapOthers: () {
                                     x = "";
+                                    result = "";
                                   }),
                                   buildPopupMenuItem("-", "--sub",
                                       onTapOthers: () {
                                     x = "";
+                                    result = "";
                                   }),
                                   buildPopupMenuItem("×", "--mul",
                                       onTapOthers: () {
                                     x = "";
+                                    result = "";
                                   }),
                                 ],
                                 // itemBuilder: (BuildContext context) => [
@@ -309,6 +320,28 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                 )
                             ],
                           ),
+                          if (mode != "--cal" && mode != "--de")
+                            Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[300]),
+                                child: SingleChildScrollView(
+                                  // !赞
+                                  scrollDirection: Axis.horizontal,
+                                  // !默认用的vertical……
+                                  child: Row(
+                                      // !害不支持index就原始的ifor吧……
+                                      children: MultinomialsWidgets2
+                                      //  [for(var i=0;i<input1.length;i++){
+                                      //   String data = input1[i].split(' ');
+                                      //   return Text(data[0])
+                                      // }]
+                                      ),
+                                )),
+                          // ),
+
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
@@ -328,7 +361,8 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                   input2.isEmpty
                                       ? ""
                                       : "\"" +
-                                          input1.length.toString() +
+                                          input2.length.toString() +
+                                          " " +
                                           input2.join(' ') +
                                           "\""
                                   // !嗯传""可以相当于忽略
@@ -344,7 +378,8 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                   input2.isEmpty
                                       ? ""
                                       : "\"" +
-                                          input1.length.toString() +
+                                          input2.length.toString() +
+                                          " " +
                                           input2.join(' ') +
                                           "\""
                                   // !嗯传""可以相当于忽略
