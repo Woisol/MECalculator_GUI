@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mecalculator/Components/input_preview.dart';
 import 'package:mecalculator/main.dart';
 
-List<String> input1 = ["1 2", "1 1"];
+List<String> input1 = [];
 List<String> input2 = [];
 // !……………………完全可以放全局变量这里啊……
 
@@ -20,7 +20,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
   // String input2 = "";
   bool manualN = false;
   int n1 = 0, n2 = 0;
-  int? x = null;
+  String x = "";
   String mode = "--cal";
   String result = "";
   // int? result = null;
@@ -28,13 +28,25 @@ class _PageMultinomialState extends State<PageMultinomial> {
   void handleGetRes() {
     late String modeCommand;
     setState(() {
-      result = getCalRes([
-        // td implement
-        "-M",
-        mode,
-        input1.length.toString() + input1.join(' '),
-        input2.isEmpty ? "" : input2.length.toString() + input2.join(' ')
-      ]);
+      result = getCalRes(mode == "--cal"
+          ? [
+              // dtd implement
+              "-M",
+              mode,
+              x,
+              // mode == "--cal" ? [mode, x] : [mode],
+              // !呜好不灵活
+              input1.length.toString() + " " + input1.join(' '),
+              input2.isEmpty ? "" : input2.length.toString() + input2.join(' ')
+            ]
+          : [
+              "-M",
+              mode,
+              // mode == "--cal" ? [mode, x] : [mode],
+              // !呜好不灵活
+              input1.length.toString() + " " + input1.join(' '),
+              input2.isEmpty ? "" : input2.length.toString() + input2.join(' ')
+            ]);
     });
   }
 
@@ -52,7 +64,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
             if (_controller1.text.isEmpty || _controller2.text.isEmpty) return;
             input1[i] = _controller1.text + " " + _controller2.text;
             // !忘记用setState了……但是刚好实现了回车再检测的效果所以;)
-            // td不是……什么原理……check一下以后用得上
+            // !额其实是之前设置的Enter计算结果……
+            // dtd不是……什么原理……check一下以后用得上
+            // !哈哈哈就setState上来说flutter比React方便哈哈哈
           },
           multinomialIndicator1: input1[i].split(' ')[0],
           multinomialIndicator2: input1[i].split(' ')[1]));
@@ -103,7 +117,8 @@ class _PageMultinomialState extends State<PageMultinomial> {
               switch (event.logicalKey.keyLabel) {
                 case "=":
                 case "Enter":
-                  handleGetRes();
+                  // handleGetRes();
+                  setState(() {});
                   break;
                 // case "Backspace":
                 //   widget.controller.text = widget.controller.text
@@ -150,6 +165,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                 child: TextField(
                                   // !FT:TextField不能根据自身内容自动调整大小……
                                   // expands: true,
+                                  enabled: false,
                                   decoration: InputDecoration(
                                       hintText: "(自动计算)",
                                       hintStyle: TextStyle(color: Colors.grey),
@@ -163,7 +179,6 @@ class _PageMultinomialState extends State<PageMultinomial> {
                               ),
 
                               // !行吧当作和React一样吧……不能有两个组件……
-
                               // !诶诶欸？？！！去掉{}就能正常条件渲染了？……噢噢加的()……
                               ClipRect(
                                   // !依然有溢出报错的红色竖条……
@@ -186,6 +201,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                       // !嗯或者再人工加个constrain也可以
                                       child: TextField(
                                         // !FT:TextField不能根据自身内容自动调整大小……
+                                        enabled: false,
                                         // expands: true,
                                         decoration: InputDecoration(
                                             hintText: "(自动计算)",
@@ -225,36 +241,73 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                     ),
                               )),
                           // ),
-                          DropdownButton(
-                            value: mode,
-                            // !注意这里要手动指定value不然没显示……
-                            // !value的修改也要自己手动setState……
-                            onChanged: (value) {
-                              mode = value.toString();
-                            },
-                            items: [
-                              buildPopupMenuItem("求值", "--cal",
-                                  onTapOthers: () {
-                                setState(() {
-                                  n2 = 0;
-                                });
-                              }),
-                              buildPopupMenuItem("求导", "--de", onTapOthers: () {
-                                setState(() {
-                                  n2 = 0;
-                                });
-                              }),
-                              buildPopupMenuItem("+", "--add"),
-                              buildPopupMenuItem("-", "--sub"),
-                              buildPopupMenuItem("×", "--mul"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DropdownButton(
+                                value: mode,
+                                // !注意这里要手动指定value不然没显示……
+                                // !value的修改也要自己手动setState……
+                                onChanged: (value) {
+                                  mode = value.toString();
+                                },
+                                items: [
+                                  buildPopupMenuItem("求值", "--cal",
+                                      onTapOthers: () {
+                                    setState(() {
+                                      n2 = 0;
+                                    });
+                                  }),
+                                  buildPopupMenuItem("求导", "--de",
+                                      onTapOthers: () {
+                                    setState(() {
+                                      x = "";
+                                      n2 = 0;
+                                    });
+                                  }),
+                                  buildPopupMenuItem("+", "--add",
+                                      onTapOthers: () {
+                                    x = "";
+                                  }),
+                                  buildPopupMenuItem("-", "--sub",
+                                      onTapOthers: () {
+                                    x = "";
+                                  }),
+                                  buildPopupMenuItem("×", "--mul",
+                                      onTapOthers: () {
+                                    x = "";
+                                  }),
+                                ],
+                                // itemBuilder: (BuildContext context) => [
+                                //       buildPopupMenuItem("求值", "--cal"),
+                                //       buildPopupMenuItem("求导", "--de"),
+                                //       buildPopupMenuItem("+", "--add"),
+                                //       buildPopupMenuItem("-", "--sub"),
+                                //       buildPopupMenuItem("×", "--mul"),
+                                //     ]
+                              ),
+                              if (mode == "--cal")
+                                Row(
+                                  // mainAxisSize: MainAxisSize.max,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+                                  // !？？意思是嵌套的Row这两个会失效？
+                                  children: [
+                                    Text("x = "),
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: TextField(
+                                        // value: x,
+                                        onChanged: (newX) {
+                                          setState(() {
+                                            x = newX;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                             ],
-                            // itemBuilder: (BuildContext context) => [
-                            //       buildPopupMenuItem("求值", "--cal"),
-                            //       buildPopupMenuItem("求导", "--de"),
-                            //       buildPopupMenuItem("+", "--add"),
-                            //       buildPopupMenuItem("-", "--sub"),
-                            //       buildPopupMenuItem("×", "--mul"),
-                            //     ]
                           ),
                           Align(
                             alignment: Alignment.centerRight,
@@ -262,24 +315,45 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                 onPressed: handleGetRes,
                                 child: const Text("计算")),
                           ),
-                          InputPreview([
-                            "-M",
-                            mode,
-
-                            "\"" +
-                                input1.length.toString() +
-                                " " +
-                                input1.join(' ') +
-                                "\"",
-                            input2.isEmpty
-                                ? ""
-                                : "\"" +
-                                    input1.length.toString() +
-                                    input2.join(' ') +
-                                    "\""
-                            // !嗯传""可以相当于忽略
-                          ]),
-                          Text(result == "" ? "" : "计算结果：" + result),
+                          InputPreview(mode == "--cal"
+                              ? [
+                                  "-M",
+                                  mode,
+                                  x,
+                                  "\"" +
+                                      input1.length.toString() +
+                                      " " +
+                                      input1.join(' ') +
+                                      "\"",
+                                  input2.isEmpty
+                                      ? ""
+                                      : "\"" +
+                                          input1.length.toString() +
+                                          input2.join(' ') +
+                                          "\""
+                                  // !嗯传""可以相当于忽略
+                                ]
+                              : [
+                                  "-M",
+                                  mode,
+                                  "\"" +
+                                      input1.length.toString() +
+                                      " " +
+                                      input1.join(' ') +
+                                      "\"",
+                                  input2.isEmpty
+                                      ? ""
+                                      : "\"" +
+                                          input1.length.toString() +
+                                          input2.join(' ') +
+                                          "\""
+                                  // !嗯传""可以相当于忽略
+                                ]),
+                          Text(
+                            result == "" ? "" : "计算结果：" + result,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
                         ]))))));
   }
 
@@ -408,3 +482,20 @@ class Multinomial extends StatelessWidget {
 //     );
 //   }
 // }
+class TextFieldWithValue extends StatelessWidget {
+  late double value;
+  late double? fontSize;
+  late Function(String) onChanged;
+  final TextEditingController controller = TextEditingController();
+  TextFieldWithValue(
+      {required this.value, this.fontSize, required this.onChanged});
+  @override
+  Widget build(BuildContext context) {
+    controller.text = value.toString();
+    return TextField(
+      controller: controller,
+      style: TextStyle(fontSize: fontSize),
+      onChanged: onChanged,
+    );
+  }
+}
