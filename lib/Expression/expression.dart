@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mecalculator/Components/command_preview.dart';
-import 'package:mecalculator/Components/inputfield_with_default.dart';
 import 'package:mecalculator/Data_Process/data_process.dart';
 import 'package:mecalculator/main.dart';
 
@@ -258,142 +257,6 @@ class _PageExpressionState extends State<PageExpression> {
                           ),
 
                           // ConstrainedBox(constraints: BoxConstraints(maxHeight: 800),child: ),
-                          Expanded(
-                              child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey, width: 2),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Row(
-                                    // !谁能告诉我为什么这里一定要加个Expanded不然甚至是崩溃？？？排除了巨久……………………………在外面加了SizeBox都解决不了都怀疑是不是MaterialAppmd没带最大高度限制真的服了flutter怎么这么难用md……
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Expanded(
-                                        // !哭了就是去不了这个Expand……不然就报错没有大小……
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            calKeyBoardButton("7"),
-                                            calKeyBoardButton("4"),
-                                            calKeyBoardButton("1"),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        // !艹虽然不能设置size但是这个居然也可以……
-                                        children: [
-                                          calKeyBoardButton("8"),
-                                          calKeyBoardButton("5"),
-                                          calKeyBoardButton("2"),
-                                        ],
-                                      )),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          calKeyBoardButton("9"),
-                                          calKeyBoardButton("6"),
-                                          calKeyBoardButton("3"),
-                                        ],
-                                      )),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          // calKeyBoardButton(".", onPressed: () {
-                                          //   showDialog(
-                                          //       context: context,
-                                          //       builder: (context) => Dialog(
-                                          //           child: Container(
-                                          //               padding:
-                                          //                   EdgeInsets.all(20),
-                                          //               child: Text(
-                                          //                   "暂不支持小数点输入，别问问就是不放这个按钮这里就会很空"))));
-                                          // }),
-                                          calKeyBoardButton("C", onPressed: () {
-                                            widget.controller.text = "";
-                                          }),
-                                          calKeyBoardButton("0", flex: 2),
-                                        ],
-                                      )),
-                                      SizedBox(
-                                        width: 25,
-                                      ),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        // !艹虽然不能设置size但是这个居然也可以……
-                                        children: [
-                                          calKeyBoardButton("+"),
-                                          calKeyBoardButton("×"),
-                                          calKeyBoardButton("("),
-                                        ],
-                                      )),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          calKeyBoardButton("-"),
-                                          calKeyBoardButton("÷"),
-                                          calKeyBoardButton(")"),
-                                        ],
-                                      )),
-                                      Expanded(
-                                          child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          calKeyBoardButton("^"),
-                                          calKeyBoardButton("←",
-                                              color: Colors.grey[300],
-                                              onPressed: () {
-                                            if (widget.controller.text.length >
-                                                0)
-                                            // if (widget
-                                            //         .controller.selection.baseOffset ==
-                                            //     widget.controller.selection.extentOffset)
-                                            {
-                                              widget.controller.text = widget
-                                                  .controller.text
-                                                  .substring(
-                                                      0,
-                                                      widget.controller.text
-                                                              .length -
-                                                          1);
-                                              // } else {
-                                              //   widget.controller.text = widget.controller.text.replaceAll(
-                                              //       widget.controller.text.substring(
-                                              //           widget.controller.selection.baseOffset <
-                                              //                   widget.controller.selection.extentOffset
-                                              //               ? widget.controller.selection.baseOffset
-                                              //               : widget.controller.selection.extentOffset,
-                                              //           widget.controller.selection.extentOffset >
-                                              //                   widget.controller.selection.baseOffset
-                                              //               ? widget.controller.selection.extentOffset
-                                              //               : widget.controller.selection.baseOffset),
-                                              //       // !md真离谱这个baseOffset和extentOffset的顺序甚至还能和鼠标从哪边划相关……需要吗……
-                                              //       "");
-                                              // !这样也会导致删除了所有不是选中但是和选中内容相同的文本……没有更好的方法（buxianggaole）
-                                            }
-                                            // controller.text =
-                                            //     controller.text.substring(0, controller.text.length - 1);
-                                            // controller.
-                                          }),
-                                          calKeyBoardButton("=",
-                                              color: Colors.yellow[700],
-                                              onPressed: handleGetRes),
-                                        ],
-                                      )),
-                                    ],
-                                  ))),
                           // Align(
                           //   alignment: Alignment.centerRight,
                           //   child: Text(
@@ -401,6 +264,9 @@ class _PageExpressionState extends State<PageExpression> {
                           //       style: TextStyle(fontSize: 20),
                           //       textAlign: TextAlign.end),
                           // )
+                          CalKeyBoardButton(
+                              controller: widget.controller,
+                              handleGetRes: handleGetRes),
                           InputPreview([
                             "-E",
                             "\"" + expressionFormatToConsole(input) + "\""
@@ -409,7 +275,12 @@ class _PageExpressionState extends State<PageExpression> {
                       ),
                     )))));
   }
+}
 
+class CalKeyBoardButton extends StatelessWidget {
+  late TextEditingController controller;
+  late dynamic handleGetRes;
+  CalKeyBoardButton({required this.controller, required this.handleGetRes});
   Widget calKeyBoardButton(String text,
       {int? flex, Color? color, Function()? onPressed, bool? enabled}) {
     // !正确的可选参数的写法……
@@ -431,13 +302,281 @@ class _PageExpressionState extends State<PageExpression> {
         child: Text(text, textScaler: TextScaler.linear(2)),
         onPressed: onPressed ??
             () {
-              widget.controller.text += text;
+              controller.text += text;
               // controller.
             },
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    // td 考虑用GridView优化一下……
+    return Expanded(
+        child: DecoratedBox(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              // !谁能告诉我为什么这里一定要加个Expanded不然甚至是崩溃？？？排除了巨久……………………………在外面加了SizeBox都解决不了都怀疑是不是MaterialAppmd没带最大高度限制真的服了flutter怎么这么难用md……
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  // !哭了就是去不了这个Expand……不然就报错没有大小……
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      calKeyBoardButton("7"),
+                      calKeyBoardButton("4"),
+                      calKeyBoardButton("1"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // !艹虽然不能设置size但是这个居然也可以……
+                  children: [
+                    calKeyBoardButton("8"),
+                    calKeyBoardButton("5"),
+                    calKeyBoardButton("2"),
+                  ],
+                )),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    calKeyBoardButton("9"),
+                    calKeyBoardButton("6"),
+                    calKeyBoardButton("3"),
+                  ],
+                )),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // calKeyBoardButton(".", onPressed: () {
+                    //   showDialog(
+                    //       context: context,
+                    //       builder: (context) => Dialog(
+                    //           child: Container(
+                    //               padding:
+                    //                   EdgeInsets.all(20),
+                    //               child: Text(
+                    //                   "暂不支持小数点输入，别问问就是不放这个按钮这里就会很空"))));
+                    // }),
+                    calKeyBoardButton("C", onPressed: () {
+                      controller.text = "";
+                    }),
+                    calKeyBoardButton("0", flex: 2),
+                  ],
+                )),
+                SizedBox(
+                  width: 25,
+                ),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // !艹虽然不能设置size但是这个居然也可以……
+                  children: [
+                    calKeyBoardButton("+"),
+                    calKeyBoardButton("×"),
+                    calKeyBoardButton("("),
+                  ],
+                )),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    calKeyBoardButton("-"),
+                    calKeyBoardButton("÷"),
+                    calKeyBoardButton(")"),
+                  ],
+                )),
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    calKeyBoardButton("^"),
+                    calKeyBoardButton("←", color: Colors.grey[300],
+                        onPressed: () {
+                      if (controller.text.length > 0)
+                      // if (widget
+                      //         .controller.selection.baseOffset ==
+                      //     controller.selection.extentOffset)
+                      {
+                        controller.text = controller.text
+                            .substring(0, controller.text.length - 1);
+                        // } else {
+                        //   widget.controller.text = widget.controller.text.replaceAll(
+                        //       widget.controller.text.substring(
+                        //           widget.controller.selection.baseOffset <
+                        //                   widget.controller.selection.extentOffset
+                        //               ? widget.controller.selection.baseOffset
+                        //               : widget.controller.selection.extentOffset,
+                        //           widget.controller.selection.extentOffset >
+                        //                   widget.controller.selection.baseOffset
+                        //               ? widget.controller.selection.extentOffset
+                        //               : widget.controller.selection.baseOffset),
+                        //       // !md真离谱这个baseOffset和extentOffset的顺序甚至还能和鼠标从哪边划相关……需要吗……
+                        //       "");
+                        // !这样也会导致删除了所有不是选中但是和选中内容相同的文本……没有更好的方法（buxianggaole）
+                      }
+                      // controller.text =
+                      //     controller.text.substring(0, controller.text.length - 1);
+                      // controller.
+                    }),
+                    calKeyBoardButton("=",
+                        color: Colors.yellow[700], onPressed: handleGetRes),
+                    // !真离谱就组件多传一次就报什么The argument type 'Function' can't be assigned to the parameter type 'dynamic Function()?'.……
+                  ],
+                )),
+              ],
+            )));
+  }
 }
+
+class InputFieldWithDefault extends StatelessWidget {
+  late TextEditingController controller;
+  late String result;
+  late List<String> options;
+  late Function handleGetRes;
+  // final FocusNode focusNode = FocusNode();
+  InputFieldWithDefault(
+      {required this.controller,
+      required this.result,
+      required this.options,
+      required this.handleGetRes});
+  @override
+  Widget build(BuildContext context) {
+    // controller?.addListener(() {
+    //   controller?.text = expressionFormat(controller?.text ?? "");
+    // });
+    return Row(
+      children: [
+        Expanded(
+            child: Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            // KeyboardListener(
+            //     // focusNode: focusNode,
+            //     focusNode: FocusNode(),
+            //     onKeyEvent: (value) {
+            //       if (value.logicalKey.keyLabel == "Backspace" &&
+            //           controller.text.length > 0)
+            //         controller.text = controller.text
+            //             .substring(0, controller.text.length - 1);
+            //       else if (value.logicalKey.keyLabel == "Enter" &&
+            //           controller.text.length > 0) {
+            //         handleGetRes();
+            //       }
+            //     },
+            //     child:
+            TextField(
+              autofocus: true,
+              // !额好像没用？
+              controller: controller,
+              // focusNode: focusNode,
+              // !？？？莫名其妙输入没有光标只能从头插入，加了这个过一会才好，现在不加又行了？？？
+              // onChanged: (str) {
+              //   controller?.text = expressionFormat(controller.text ?? "");
+              // },
+              // onChanged: (value){if()},
+              // inputFormatters: [
+              //   FilteringTextInputFormatter.allow(RegExp(r'[0-9+\-*/]*$'))
+              // ],
+              // !这种方式只要输入一个非法字符就会清空……
+              decoration: InputDecoration(
+                  // enabledBorder:
+                  hintText: '用键盘或下方按钮输入表达式，或在后面的按钮选择一个输入样例',
+                  hintStyle: TextStyle(color: Colors.grey[400]),
+                  // suffixIconColor: Colors.yellow[400],
+                  // prefixIconColor: Colors.yellow[400],
+                  // hoverColor: Colors.yellow[400],
+                  // fillColor: Colors.yellow[400],
+                  // focusColor: Colors.yellow[400],
+                  // !md就是改不了输入时的边框颜色……
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.grey[400]!, width: 0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.yellow[600]!, width: 2),
+                      borderRadius: BorderRadius.circular(10))
+                  // !麻了这边原来叫BorderSide……
+                  ),
+            ),
+            Positioned(
+              child: Text(
+                result != "" ? "= " + result : "",
+                style: TextStyle(fontSize: 20, height: 0.3),
+                // !激进地设置height成了0.3/汗
+              ),
+              right: 10,
+            )
+            // Text(result),
+          ],
+        )),
+        // Positioned(child:
+        // Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        PopupMenuButton(
+            tooltip: "输入样例",
+            icon: Icon(Icons.arrow_drop_down),
+            itemBuilder: (context) => options
+                .map((String sample) => PopupMenuItem(
+                    child: Text(sample),
+                    value: sample,
+                    onTap: () {
+                      if (controller.text == sample) return;
+                      if (controller.text != "") {
+                        // !Dialog的写法！！！
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                    title: Text(
+                                      "警告",
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                    content: Text("当前输入框内有内容，是否覆盖？"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            controller.text = sample;
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("覆盖")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("取消"))
+                                    ]));
+                      } else
+                        controller.text = sample;
+                      // controller.value = TextEditingValue(text: sample);
+                    }))
+                .toList(),
+            //  [
+            //       PopupMenuItem(child: Text('Option 1'), value: 1),
+            //       PopupMenuItem(child: Text('Option 2'), value: 2),
+            //       PopupMenuItem(child: Text('Option 3'), value: 3)
+            //     ],
+            onSelected: (value) => print(value)),
+        // ]),
+        // right: 10,
+        // top: 5,
+        // bottom: 5,
+        // )
+      ],
+    );
+    // Autocomplete(
+    //   optionsBuilder: (textEditingValue) =>
+    //       ['Option 1', 'Option 2', 'Option 3'],
+    // );
+  }
+}
+
 // !az不能嵌套class……
 // class CalKeyBoardButton extends StatelessWidget {
 //   late String text;

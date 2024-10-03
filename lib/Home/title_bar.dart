@@ -109,42 +109,50 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
         //   ],
         //   // ),
         // );
-        DragToMoveArea(
-            child: AppBar(
-                // !还是得用AppBar……不然OpenContainer显示不了BackBtn……
-                // !就算返回AppBar也无法赋给scaffold的appBar属性……The argument type 'TitleBar' can't be assigned to the parameter type 'PreferredSizeWidget?'.
-                title: Text(widget.title),
-                // !没办法还是只能在AppBar外面加Drag……
-                // title: DragToMoveArea(child: Expanded(child: Text(widget.title))),
-                centerTitle: true,
-                elevation: 0,
-                toolbarHeight: 30,
-                // flexibleSpace:
-                // DragToMoveArea(child: Container(child: Text(widget.title))),
-                // !这里DragToMoveArea似乎不是一个Area而是定位到了第一个实际Widge，也就是Text，就算前面加了Center，Expend都只有Text部分能拖动
-                backgroundColor: Colors.grey[200],
-                actions: <Widget>[
-          // Material(borderRadius: const BorderRadius.all(Radius.zero),child:
-          TitleBarBtn(
-              icon: Icons.remove,
-              tooltip: '最小化',
-              onPressed: () {
-                windowManager.minimize();
-              }),
-          TitleBarBtn(
-              icon: Icons.square_outlined,
-              tooltip: '最大化',
-              onPressed: () {
-                windowManager.maximize();
-              }),
-          TitleBarBtn(
-              icon: Icons.close,
-              tooltip: '关闭',
-              hoverColor: Colors.red[400],
-              onPressed: () {
-                windowManager.close();
-              }),
-        ]));
+        ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: 100,
+                minHeight: 30,
+                maxHeight: 30,
+                maxWidth: double.infinity),
+            // !无法修复多次OpenContainer时AppBar没有大小的问题
+            child: DragToMoveArea(
+                child: AppBar(
+                    // !还是得用AppBar……不然OpenContainer显示不了BackBtn……
+                    // !就算返回AppBar也无法赋给scaffold的appBar属性……The argument type 'TitleBar' can't be assigned to the parameter type 'PreferredSizeWidget?'.
+                    title: Text(widget.title),
+                    // !没办法还是只能在AppBar外面加Drag……
+                    // title: DragToMoveArea(child: Expanded(child: Text(widget.title))),
+                    centerTitle: true,
+                    elevation: 0,
+                    leadingWidth: 50,
+                    toolbarHeight: 30,
+                    // flexibleSpace:
+                    // DragToMoveArea(child: Container(child: Text(widget.title))),
+                    // !这里DragToMoveArea似乎不是一个Area而是定位到了第一个实际Widge，也就是Text，就算前面加了Center，Expend都只有Text部分能拖动
+                    backgroundColor: Colors.grey[200],
+                    actions: <Widget>[
+                  // Material(borderRadius: const BorderRadius.all(Radius.zero),child:
+                  TitleBarBtn(
+                      icon: Icons.remove,
+                      tooltip: '最小化',
+                      onPressed: () {
+                        windowManager.minimize();
+                      }),
+                  TitleBarBtn(
+                      icon: Icons.square_outlined,
+                      tooltip: '最大化',
+                      onPressed: () {
+                        windowManager.maximize();
+                      }),
+                  TitleBarBtn(
+                      icon: Icons.close,
+                      tooltip: '关闭',
+                      hoverColor: Colors.red[400],
+                      onPressed: () {
+                        windowManager.close();
+                      }),
+                ])));
   }
 }
 
