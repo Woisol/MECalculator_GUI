@@ -7,7 +7,7 @@ class InputPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: Text("输入预览：.\\Cpp\\calculator.exe " + args.join(' '),
+      child: Text("命令预览：calculate.exe " + args.join(' '),
           style: TextStyle(fontSize: 15), textAlign: TextAlign.end),
     );
   }
