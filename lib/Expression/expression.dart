@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mecalculator/Components/command_preview.dart';
+import 'package:mecalculator/Components/input_preview.dart';
 import 'package:mecalculator/Data_Process/data_process.dart';
 import 'package:mecalculator/main.dart';
 
