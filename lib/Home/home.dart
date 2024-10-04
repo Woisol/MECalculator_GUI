@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                           // "assets/function.svg",
                           // !人傻了默认不支持svg要么就加个flutter-svg
                           // ~~甚至导致flutter卡死必须重启……噢噢是断点了……
-                          "assets/function.png",
+                          "assets/img/function.png",
                           width: 64,
                           height: 64,
                         ),
@@ -134,7 +134,7 @@ class Home extends StatelessWidget {
                           // "assets/function.svg",
                           // !人傻了默认不支持svg要么就加个flutter-svg
                           // ~~甚至导致flutter卡死必须重启……噢噢是断点了……
-                          "assets/expression.png",
+                          "assets/img/expression.png",
                           width: 64,
                           height: 64,
                         ),

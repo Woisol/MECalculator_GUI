@@ -110,6 +110,10 @@ String getCalRes(List<String> arguments) {
   print("Directory.current.path: " + Directory.current.path);
   return Process.runSync(
           "${Directory.current.path}/calculator/calculate.exe", arguments)
+      // !md这里用calculator和用assets/exe都是开发可行构建出来就废……手动复制才行……
+      // !构建时复制好像要修改CMake……暂时手动复制吧……
+      // "assets/exe/calculate.exe",
+      // arguments)
       .stdout
       .toString();
 }
