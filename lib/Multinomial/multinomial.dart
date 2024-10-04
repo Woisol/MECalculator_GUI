@@ -63,10 +63,13 @@ class _PageMultinomialState extends State<PageMultinomial> {
           index: i,
           handleChanged: (TextEditingController _controller1,
               TextEditingController _controller2) {
-            if (_controller1.text.isEmpty && _controller2.text.isEmpty)
-              input1.removeAt(i);
-            if (_controller1.text.isEmpty || _controller2.text.isEmpty) return;
-            input1[i] = _controller1.text + " " + _controller2.text;
+            setState(() {
+              if (_controller1.text.isEmpty && _controller2.text.isEmpty)
+                input1.removeAt(i);
+              if (_controller1.text.isEmpty || _controller2.text.isEmpty)
+                return;
+              input1[i] = _controller1.text + " " + _controller2.text;
+            });
             // !忘记用setState了……但是刚好实现了回车再检测的效果所以;)
             // !额其实是之前设置的Enter计算结果……
             // dtd不是……什么原理……check一下以后用得上
@@ -80,7 +83,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
       handleChanged: (TextEditingController _controller1,
           TextEditingController _controller2) {
         if (_controller1.text.isEmpty || _controller2.text.isEmpty) return;
-        input1.add(_controller1.text + " " + _controller2.text);
+        setState(() {
+          input1.add(_controller1.text + " " + _controller2.text);
+        });
       },
       multinomialIndicator1: "",
       multinomialIndicator2: "",
@@ -92,9 +97,13 @@ class _PageMultinomialState extends State<PageMultinomial> {
             index: i,
             handleChanged: (TextEditingController _controller1,
                 TextEditingController _controller2) {
-              if (_controller1.text.isEmpty || _controller2.text.isEmpty)
-                return;
-              input2[i] = _controller1.text + " " + _controller2.text;
+              setState(() {
+                if (_controller1.text.isEmpty && _controller2.text.isEmpty)
+                  input2.removeAt(i);
+                if (_controller1.text.isEmpty || _controller2.text.isEmpty)
+                  return;
+                input2[i] = _controller1.text + " " + _controller2.text;
+              });
             },
             multinomialIndicator1: input2[i].split(' ')[0],
             multinomialIndicator2: input2[i].split(' ')[1]));
@@ -104,7 +113,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
       handleChanged: (TextEditingController _controller1,
           TextEditingController _controller2) {
         if (_controller1.text.isEmpty || _controller2.text.isEmpty) return;
-        input2.add(_controller1.text + " " + _controller2.text);
+        setState(() {
+          input2.add(_controller1.text + " " + _controller2.text);
+        });
       },
       multinomialIndicator1: "",
       multinomialIndicator2: "",
@@ -121,8 +132,8 @@ class _PageMultinomialState extends State<PageMultinomial> {
               switch (event.logicalKey.keyLabel) {
                 case "=":
                 case "Enter":
-                  // handleGetRes();
-                  setState(() {});
+                  handleGetRes();
+                  // setState(() {});
                   break;
                 // case "Backspace":
                 //   widget.controller.text = widget.controller.text
@@ -163,7 +174,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
 // !意思是用个Expanded可以是吧……
                               ConstrainedBox(
                                 constraints:
-                                    BoxConstraints(minWidth: 50, maxWidth: 80),
+                                    BoxConstraints(minWidth: 50, maxWidth: 90),
                                 // !额默认就采用了maxWidth……
                                 // !嗯或者再人工加个constrain也可以
                                 child: TextField(
@@ -171,7 +182,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                   // expands: true,
                                   enabled: false,
                                   decoration: InputDecoration(
-                                      hintText: "(自动计算)",
+                                      hintText: "${input1.length}(自动计算)",
                                       hintStyle: TextStyle(color: Colors.grey),
                                       focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
@@ -200,7 +211,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
 // !意思是用个Expanded可以是吧……
                                     ConstrainedBox(
                                       constraints: BoxConstraints(
-                                          minWidth: 50, maxWidth: 80),
+                                          minWidth: 50, maxWidth: 90),
                                       // !额默认就采用了maxWidth……
                                       // !嗯或者再人工加个constrain也可以
                                       child: TextField(
@@ -208,7 +219,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                         enabled: false,
                                         // expands: true,
                                         decoration: InputDecoration(
-                                            hintText: "(自动计算)",
+                                            hintText: "${input2.length}(自动计算)",
                                             hintStyle:
                                                 TextStyle(color: Colors.grey),
                                             focusedBorder: UnderlineInputBorder(
@@ -226,6 +237,9 @@ class _PageMultinomialState extends State<PageMultinomial> {
                             ],
                           ),
                           SizedBox(height: 10),
+                          // Stack(
+                          // td害之前的组件没做好复用性不想整理了就这样吧
+                          // children: [
                           Container(
                               padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
                               decoration: BoxDecoration(
@@ -244,6 +258,15 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                     // }]
                                     ),
                               )),
+                          // Positioned(
+                          //   child: PopupMenuButton(
+                          //       itemBuilder: (BuildContext context) => []),
+                          //   top: 5,
+                          //   bottom: 5,
+                          //   right: 10,
+                          // )
+                          // ],
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -384,10 +407,25 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                           "\""
                                   // !嗯传""可以相当于忽略
                                 ]),
-                          Text(
-                            result == "" ? "" : "计算结果：" + result,
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            // color: Colors.grey[200],
+                            // !注意color不能和decoration共存
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey[500]!, width: 1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              result == ""
+                                  ? "未计算"
+                                  : "计算结果：" + result.replaceAll('\n', ''),
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ]))))));
   }
