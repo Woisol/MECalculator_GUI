@@ -13,8 +13,9 @@ List<String> input2 = [];
 const List<List<String>> options = [
   ["1 1"],
   ["1 2", "1 1"],
+  ["-1.5 1"],
   ["2 2", "-1 2"],
-  ["1.5 2", "-0.3 1"]
+  ["1.5 2", "-0.3 1"],
 ];
 
 class PageMultinomial extends StatefulWidget {
@@ -34,7 +35,15 @@ class _PageMultinomialState extends State<PageMultinomial> {
   // int? result = null;
   // !Redundant initialization to 'null'.
   void handleGetRes() {
-    late String modeCommand;
+    // late String modeCommand;
+    if (mode == "--cal" && x == "") {
+      // !尽管在console里面添加了检测参数数量的逻辑但是似乎无效还是在这里判断……
+      setState(() {
+        result = "err: 未输入x";
+      });
+      return;
+      // !额注意这个不要放到setState里面了……
+    }
     setState(() {
       result = getCalRes(mode == "--cal"
           ? [
