@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mecalculator/Components/input_preview.dart';
-import 'package:mecalculator/Data_Process/data_process.dart';
+import 'package:mecalculator/Data_Process/utils.dart';
 import 'package:mecalculator/main.dart';
 
 late List<String> expressionSample = [
@@ -522,48 +522,49 @@ class InputFieldWithDefault extends StatelessWidget {
         // Positioned(child:
         // Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         PopupMenuButton(
-            tooltip: "输入样例",
-            icon: Icon(Icons.arrow_drop_down),
-            itemBuilder: (context) => options
-                .map((String sample) => PopupMenuItem(
-                    child: Text(sample),
-                    value: sample,
-                    onTap: () {
-                      if (controller.text == sample) return;
-                      if (controller.text != "") {
-                        // !Dialog的写法！！！
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                    title: Text(
-                                      "警告",
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                    content: Text("当前输入框内有内容，是否覆盖？"),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.text = sample;
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("覆盖")),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("取消"))
-                                    ]));
-                      } else
-                        controller.text = sample;
-                      // controller.value = TextEditingValue(text: sample);
-                    }))
-                .toList(),
-            //  [
-            //       PopupMenuItem(child: Text('Option 1'), value: 1),
-            //       PopupMenuItem(child: Text('Option 2'), value: 2),
-            //       PopupMenuItem(child: Text('Option 3'), value: 3)
-            //     ],
-            onSelected: (value) => print(value)),
+          tooltip: "输入样例",
+          icon: Icon(Icons.arrow_drop_down),
+          itemBuilder: (context) => options
+              .map((String sample) => PopupMenuItem(
+                  child: Text(sample),
+                  value: sample,
+                  onTap: () {
+                    if (controller.text == sample) return;
+                    if (controller.text != "") {
+                      // !Dialog的写法！！！
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                  title: Text(
+                                    "警告",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  content: Text("当前输入框内有内容，是否覆盖？"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        onPressed: () {
+                                          controller.text = sample;
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("覆盖")),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("取消"))
+                                  ]));
+                    } else
+                      controller.text = sample;
+                    // controller.value = TextEditingValue(text: sample);
+                  }))
+              .toList(),
+          //  [
+          //       PopupMenuItem(child: Text('Option 1'), value: 1),
+          //       PopupMenuItem(child: Text('Option 2'), value: 2),
+          //       PopupMenuItem(child: Text('Option 3'), value: 3)
+          //     ],
+          // onSelected: (value) => print(value)
+        ),
         // ]),
         // right: 10,
         // top: 5,
