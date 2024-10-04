@@ -91,6 +91,7 @@ class _PageMultinomialState extends State<PageMultinomial> {
           TextEditingController _controller2) {
         if (_controller1.text.isEmpty || _controller2.text.isEmpty) return;
         setState(() {
+          // td此时存在该输入框焦点重新到开头的问题……
           input1.add(_controller1.text + " " + _controller2.text);
         });
       },
@@ -582,10 +583,16 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                 child: Text(
                                   result == ""
                                       ? "未计算"
-                                      : "计算结果：" + result.replaceAll('\n', ''),
+                                      : result.startsWith("err: ")
+                                          ? result.replaceAll('\n', '')
+                                          : "计算结果：" +
+                                              result.replaceAll('\n', ''),
                                   style: TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      color: result.startsWith("err: ")
+                                          ? Colors.red
+                                          : Colors.black),
                                 ),
                               ),
                             ]))))));

@@ -511,7 +511,11 @@ class InputFieldWithDefault extends StatelessWidget {
             Positioned(
               child: Text(
                 result != "" ? "= " + result : "",
-                style: TextStyle(fontSize: 20, height: 0.3),
+                style: TextStyle(
+                    fontSize: result.startsWith("err: ") ? 10 : 20,
+                    height: 0.3,
+                    color:
+                        result.startsWith("err: ") ? Colors.red : Colors.black),
                 // !激进地设置height成了0.3/汗
               ),
               right: 10,
