@@ -16,6 +16,17 @@ const List<List<String>> options = [
   ["-1.5 1"],
   ["2 2", "-1 2"],
   ["1.5 2", "-0.3 1"],
+  ["2 1", "5 8", "-3.1 11"],
+  ["7 0", "-5 8", "11 9"],
+  ["6 -3", "-1 1", "4.4 2", "-1.2 9"],
+  ["-6 -3", "5.4 2", "-1 2", "7.8 15"],
+  ["1 0", "1 1", "1 2", "1 3", "1 4", "1 5", "1 6"],
+  ["-1 3", "-1 4"],
+  ["1 1", "1 3"],
+  ["-1 1", "-1 3"],
+  ["1 1", "1 100"],
+  ["1 100", "1 200"],
+  ["0 0"],
 ];
 
 class PageMultinomial extends StatefulWidget {
@@ -299,65 +310,65 @@ class _PageMultinomialState extends State<PageMultinomial> {
                                         tooltip: "输入样例",
                                         icon: Icon(Icons.arrow_drop_down),
                                         itemBuilder: (context) => options
-                                            .map(
-                                                (List<String> sample) =>
-                                                    PopupMenuItem(
-                                                        child: Text(
-                                                            sample.join(' ')),
-                                                        value: sample,
-                                                        onTap: () {
-                                                          if (listEquals(
-                                                              input1, sample))
-                                                            // if (input1.every((input)=>sample.contains(input)))
-                                                            return;
-                                                          if (input1.length !=
-                                                              0) {
-                                                            // !Dialog的写法！！！
-                                                            showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder: (context) =>
-                                                                    AlertDialog(
-                                                                        title:
-                                                                            Text(
-                                                                          "警告",
-                                                                          style:
-                                                                              TextStyle(color: Colors.red),
-                                                                        ),
-                                                                        content:
-                                                                            Text("当前输入框内有内容，是否覆盖？"),
-                                                                        actions: <Widget>[
-                                                                          TextButton(
-                                                                              onPressed: () {
-                                                                                setState(() {
-                                                                                  // input1 = sample;
-                                                                                  // !注意这样依然传了引用导致无法修改……
-                                                                                  input1 = [
-                                                                                    ...sample
-                                                                                  ];
-                                                                                  result = "";
-                                                                                  // !等等原来dart也有这种展开语法？？？
-                                                                                });
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                              child: const Text("覆盖")),
-                                                                          TextButton(
-                                                                              onPressed: () {
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                              child: const Text("取消"))
-                                                                        ]));
-                                                          } else
-                                                            setState(() {
-                                                              // input1 = sample;
-                                                              input1 = [
-                                                                ...sample
-                                                              ];
-                                                              result = "";
-                                                              // !等等原来dart也有这种展开语法？？？
-                                                            });
-                                                          // controller.value = TextEditingValue(text: sample);
-                                                        }))
+                                            .map((List<String> sample) =>
+                                                // !额这里FT说是支持溢出滚动的但是实际不行……
+                                                PopupMenuItem(
+                                                    child:
+                                                        Text(sample.join(' ')),
+                                                    value: sample,
+                                                    onTap: () {
+                                                      if (listEquals(
+                                                          input1, sample))
+                                                        // if (input1.every((input)=>sample.contains(input)))
+                                                        return;
+                                                      if (input1.length != 0) {
+                                                        // !Dialog的写法！！！
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                AlertDialog(
+                                                                    title: Text(
+                                                                      "警告",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.red),
+                                                                    ),
+                                                                    content: Text(
+                                                                        "当前输入框内有内容，是否覆盖？"),
+                                                                    actions: <Widget>[
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            setState(() {
+                                                                              // input1 = sample;
+                                                                              // !注意这样依然传了引用导致无法修改……
+                                                                              input1 = [
+                                                                                ...sample
+                                                                              ];
+                                                                              result = "";
+                                                                              // !等等原来dart也有这种展开语法？？？
+                                                                            });
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              const Text("覆盖")),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              const Text("取消"))
+                                                                    ]));
+                                                      } else
+                                                        setState(() {
+                                                          // input1 = sample;
+                                                          input1 = [...sample];
+                                                          result = "";
+                                                          // !等等原来dart也有这种展开语法？？？
+                                                        });
+                                                      // controller.value = TextEditingValue(text: sample);
+                                                    }))
                                             .toList(),
                                       )
                                     ],

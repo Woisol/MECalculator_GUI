@@ -12,6 +12,17 @@ late List<String> expressionSample = [
   "4*2^3",
   "8/(9-9)",
   "90-(5-4)*2-2^3",
+  "3*(7-2)",
+  "8",
+  "1+2+3+4",
+  "88-1*5",
+  "1024/4*8",
+  "1024/(4*8)",
+  "(20+2)*(6/2)",
+  "3-3-3",
+  "8/(9-9)",
+  "2*(6+2*(3+6*(6+6)))",
+  "(((6+6)*6+3)*2+6)*2"
 ].map((e) => expressionFormatToShow(e)).toList();
 // List<Map<String, String>> expressionSample2 = [{},{}];
 // List<String[2]> expressionSample2 = [
